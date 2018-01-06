@@ -6,6 +6,8 @@ public class Button : MonoBehaviour {
 
 	///0 through 4. Type of tile.
 	private int type;
+
+	public int x, y;
 	public GameObject[] tileObjects;
 
 	// Use this for initialization
@@ -30,5 +32,10 @@ public class Button : MonoBehaviour {
 	
 	public void SetType(int type) {
 		this.type = type;
+	}
+
+	public void SetCoordinates(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 }

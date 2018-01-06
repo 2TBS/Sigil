@@ -12,9 +12,16 @@ public class Spawn : MonoBehaviour {
 	void Start () {
 
 		tiles = board.GetComponentsInChildren<Button>();
+
+		int x = 0;
+
 		foreach(Button tile in tiles) {
 			tile.SetType(Random.Range(0,4));
 			tile.UpdateItem();
+			tile.SetCoordinates(x % 8, x/8);
+
+			x++;
+
 		}
 	}
 	
