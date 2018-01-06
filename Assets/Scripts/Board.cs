@@ -20,7 +20,12 @@ public class Board : MonoBehaviour {
 
 		//Assign tile type and coordinates
 		foreach(Tile tile in tiles) {
-			tile.SetType(Random.Range(0,4));
+			int safety = 0;
+			while(tile.GetTypeID() == -1 || (safety < 10 && (GetTile(x-1).GetTypeID() == tile.GetTypeID() || GetTile(x-8).GetTypeID() == tile.GetTypeID()))) {
+				tile.SetType(Random.Range(0,4));
+				safety++;
+				Debug.Log(safety);
+			}
 			tile.UpdateItem();
 			tile.SetCoordinates(x % 8, x/8);
 

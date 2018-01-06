@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Tile : MonoBehaviour {
 
 	///0 through 4. Type of tile.
-	private int type;
+	private int type = -1;
 	private Board board;
 
 	public int x, y;
@@ -54,14 +54,14 @@ public class Tile : MonoBehaviour {
 			board.swapID = 8*y + x;
 		}
 		else {
-			if(Mathf.Abs(x - board.GetTile().x) <= 1 && Mathf.Abs(y- board.GetTile().y) <= 1) {
+			if(Mathf.Abs(x - board.GetTile().x) == 1 ^ Mathf.Abs(y- board.GetTile().y) == 1) {
 				int temp = type;
 				type = board.GetTile().GetTypeID();
 				board.GetTile().SetType(temp);
 				UpdateItem();
 				board.GetTile().UpdateItem();
 			}
-			
+
 			board.swapping = false;
 		}
 
