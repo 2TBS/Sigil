@@ -31,6 +31,9 @@ public class Tile : MonoBehaviour {
             newItem.transform.SetParent(transform);
 		}
 		
+		// try {
+		// 	Debug.Log(board.CheckMatch(x, y));
+		// } catch {}
 	}
 	
 	public void SetType(int type) {
@@ -60,6 +63,9 @@ public class Tile : MonoBehaviour {
 				board.GetTile().SetType(temp);
 				UpdateItem();
 				board.GetTile().UpdateItem();
+
+				board.CheckMatch(x,y);
+				board.CheckMatch(board.GetTile().x, board.GetTile().y);
 			}
 
 			board.swapping = false;
