@@ -64,7 +64,7 @@ public class Tile : MonoBehaviour {
 				UpdateItem();
 				board.GetTile().UpdateItem();
 
-				board.CheckMatch(x,y);
+				Debug.Log(board.CheckMatch(x,y));
 				board.CheckMatch(board.GetTile().x, board.GetTile().y);
 			}
 

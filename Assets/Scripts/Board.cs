@@ -73,38 +73,52 @@ public class Board : MonoBehaviour {
 		int lMatch = x, rMatch = x;
 
 		//Check horizontal-right matches first
-		for(int x1 = x; x1 < 8; x1++) 
-			if(IsMatching(x, y, x1, y))
-				rMatch++;
-		
-		//Check horizontal-left
-		for(int x1 = x; x1 > 0; x1--)
-			if(IsMatching(x, y, x1, y))
-				lMatch--;
+		int x1 = x+1;
+		while(IsMatching(x, y, x1, y)) {
+			rMatch++;
+			x1++;
+		}
+
+		x1 = x-1;
+		while(IsMatching(x, y, x1, y)) {
+			lMatch--;
+			x1--;
+		}
 
 		if(rMatch - lMatch >= 2) {
-			for(int x1 = lMatch; x1 < rMatch; x1++)
-				GenerateTile(x1, y);
+			for(x1 = lMatch; x1 <= rMatch; x1++)
+				Destroy(GetTile(x1, y).gameObject);
+			
+			Debug.Log("horizontal match");
 			return rMatch - lMatch;
 		}
 
 		lMatch = y; rMatch = y;
 
         //Check vertical-down
-        for (int y1 = y; y1 < 8; y1++)
-            if (IsMatching(x, y1, x, y1))
-                rMatch++;
+      	int y1 = y + 1;
+        while (IsMatching(x, y, x, y1))
+        {
+            rMatch++;
+            y1++;
+        }
 
         //Check vertical-up
-        for (int y1 = y; y1 > 0; y1--)
-            if (IsMatching(x, y1, x, y1))
-                lMatch--;
+        y1 = y - 1;
+        while (IsMatching(x, y, x, y1))
+        {
+            lMatch--;
+            y1--;
+        }
 
         if (rMatch - lMatch >= 2)
         {
-            for (int y1 = lMatch; y1 < rMatch; y1++) 
-				GenerateTile(x, y1);
+            for (y1 = lMatch; y1 <= rMatch; y1++) {
+				Destroy(GetTile(x, y1).gameObject);
+				Debug.Log("Match " + x + " " + y1);
+			}
 			
+			Debug.Log("vertical match");
             return rMatch - lMatch;
         }
 
