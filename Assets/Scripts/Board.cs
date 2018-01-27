@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-///Attach to Board
+/**
+Attach this class to the Board Object.
+The Board object should contain tiles situated in a square pattern. Current layout is 8x8 tiles.
+
+Author(s): Ben Cuan
+*/
 public class Board : MonoBehaviour {
 
-	public GameObject board;
-	public Tile[] tiles;
-
-	public int swapID;
-	public bool swapping;
+	public Tile[] tiles; //Array of Tile Objects
+	public int swapID; //Temporary storage ID for tiles when swapping
+	public bool swapping; //Is the board in swap mode?
 
 	// Use this for initialization
 	void Start () {
 
-		tiles = board.GetComponentsInChildren<Tile>();
+		//Initialize tiles array
+		tiles = gameObject.GetComponentsInChildren<Tile>();
 
+		//Temporary x-value used for initial generation
 		int x = 0;
 
 		//Assign tile type and coordinates
@@ -34,15 +39,20 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	///Generates a random tile at coordinates (x,y). Does not check for matches after generation/
 	void GenerateTile(int x, int y) {
-		int safety = 0;
-		Tile tile = GetTile(x,y);
-        while (safety < 10 && (GetTile(x - 1).GetTypeID() == tile.GetTypeID() || GetTile(x - 8).GetTypeID() == tile.GetTypeID()))
-        {
+		
+		//Tile exists
+		try {
+			Tile tile = GetTile(x,y);
             tile.SetType(Random.Range(0, 4));
-            safety++;
-        }
-        tile.UpdateItem();
+            tile.UpdateItem();
+		}
+		//Wups! No tile here!
+		catch {
+			//TODO!!!!!!
+		}
+           
 	}
 	
 	// Update is called once per frame
@@ -50,6 +60,8 @@ public class Board : MonoBehaviour {
 		
 	}
 
+
+	///Returns the Tile object with the given ID. 8x8 grid ID's are 0 to 63
 	public Tile GetTile(int id) {
 		try {
 			return GameObject.Find("Tile (" +id + ")").GetComponent<Tile>();
@@ -59,10 +71,12 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	///Returns the Tile object with the given coordinates. 8x8 grid coords are 0 to 7
 	public Tile GetTile(int x, int y) {
 		return GetTile(x + y*8);
 	}
 
+	///Shortcut for GetTile(swapID)
 	public Tile GetTile() {
 		return GetTile(swapID);
 	}
@@ -79,12 +93,14 @@ public class Board : MonoBehaviour {
 			x1++;
 		}
 
+		//Horizontal left match
 		x1 = x-1;
 		while(IsMatching(x, y, x1, y)) {
 			lMatch--;
 			x1--;
 		}
 
+		//Destroy all tiles in the chain if the chain is long enough.
 		if(rMatch - lMatch >= 2) {
 			for(x1 = lMatch; x1 <= rMatch; x1++)
 				Destroy(GetTile(x1, y).gameObject);
@@ -111,6 +127,7 @@ public class Board : MonoBehaviour {
             y1--;
         }
 
+        //Destroy all tiles in the chain if the chain is long enough.
         if (rMatch - lMatch >= 2)
         {
             for (y1 = lMatch; y1 <= rMatch; y1++) {
