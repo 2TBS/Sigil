@@ -103,7 +103,7 @@ public class Board : MonoBehaviour {
 		//Destroy all tiles in the chain if the chain is long enough.
 		if(rMatch - lMatch >= 2) {
 			for(x1 = lMatch; x1 <= rMatch; x1++)
-				Destroy(GetTile(x1, y).gameObject);
+				ShiftDown(x1, y);
 			
 			Debug.Log("horizontal match");
 			return rMatch - lMatch;
@@ -131,7 +131,7 @@ public class Board : MonoBehaviour {
         if (rMatch - lMatch >= 2)
         {
             for (y1 = lMatch; y1 <= rMatch; y1++) {
-				Destroy(GetTile(x, y1).gameObject);
+				ShiftDown(x, y1);
 				Debug.Log("Match " + x + " " + y1);
 			}
 			
@@ -142,6 +142,19 @@ public class Board : MonoBehaviour {
 
 		//No matches found
 		return -1;
+	}
+
+	///Shifts tiles down to fill the given spaces.
+	///Input: Coordinate to shift tiles down into. 
+	public void ShiftDown(int x, int y) {
+		//Loop through from y=y to y=0. (Go from higher y value first.)
+
+			//Inside loop:
+			//Set the tile at (x, y+1) to the type at (x, y).
+			//Remember that (0,0) is the top left corner.
+			//Update the tile.
+
+		//Generate a random tile at (x, 0).
 	}
 
 	///Returns true if the two coordinates match type.
